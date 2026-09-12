@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Cotizador de Obras{% endblock %}
+
+{% block content %}
+<div class="p-4 p-md-5 mb-4 bg-light rounded-3 shadow-sm">
+    <h1 class="display-6 fw-bold">Sistema de Cotizaciones y Presupuesto de Obras</h1>
+    <p class="col-md-8 fs-5 text-muted">
+        Administra tu catálogo de materiales y genera cotizaciones de obra
+        de forma rápida y ordenada.
+    </p>
+    <a class="btn btn-dark btn-lg mt-2" href="{{ url_for('nueva_cotizacion') }}">
+        <i class="bi bi-plus-circle"></i> Crear nueva cotización
+    </a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-box-seam"></i> Materiales registrados</h5>
+                <p class="display-5 fw-bold">{{ total_materiales }}</p>
+                <a href="{{ url_for('materiales') }}" class="btn btn-outline-dark btn-sm">
+                    Ver catálogo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Cotizaciones generadas</h5>
+                <p class="display-5 fw-bold">{{ total_cotizaciones }}</p>
+                <a href="{{ url_for('cotizador') }}" class="btn btn-outline-dark btn-sm">
+                    Ver cotizaciones
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

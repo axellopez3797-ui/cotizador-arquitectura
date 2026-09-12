@@ -1,0 +1,9 @@
+# Dependencias del Sistema de Cotizaciones y Presupuesto de Obras
+# Instalar con: pip install -r requirements.txt
+
+Flask==3.0.3
+
+# Para generación de PDFs en una futura fase del proyecto
+# (descomentar la que se vaya a usar)
+reportlab==4.2.2
+# pdfkit==1.0.0   # Requiere tener instalado wkhtmltopdf en el sistema

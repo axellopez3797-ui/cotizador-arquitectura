@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Nueva Cotización - Cotizador de Obras{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-plus-circle"></i> Nueva Cotización</h2>
+
+<form method="POST" action="{{ url_for('nueva_cotizacion') }}">
+
+    <!-- Datos generales de la cotización -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">Datos del proyecto</div>
+        <div class="card-body row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Cliente</label>
+                <input type="text" class="form-control" name="cliente" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Proyecto</label>
+                <input type="text" class="form-control" name="proyecto" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Fecha</label>
+                <input type="date" class="form-control" name="fecha" value="{{ fecha_hoy }}">
+            </div>
+        </div>
+    </div>
+
+    <!-- Selección de materiales -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <span>Materiales de la cotización</span>
+            <button type="button" class="btn btn-sm btn-light" id="btnAgregarFila">
+                <i class="bi bi-plus-lg"></i> Agregar línea
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0" id="tablaMateriales">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 50%">Material</th>
+                        <th style="width: 20%">Cantidad</th>
+                        <th style="width: 20%">Precio unitario</th>
+                        <th style="width: 10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Fila inicial (se pueden agregar más con JS) -->
+                    <tr class="fila-material">
+                        <td>
+                            <select name="material_id[]" class="form-select select-material" required>
+                                <option value="" disabled selected>Selecciona un material...</option>
+                                {% for m in materiales %}
+                                <option value="{{ m.id }}" data-precio="{{ m.precio_unitario }}">
+                                    {{ m.nombre }} ({{ m.unidad_medida }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" step="0.01" min="0" class="form-control"
+                                   name="cantidad[]" placeholder="0">
+                        </td>
+                        <td>
+                            <span class="precio-unitario text-muted">$0.00</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-danger btnQuitarFila">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-dark btn-lg">
+            <i class="bi bi-check-circle"></i> Guardar cotización
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // ---------------------------------------------------------------
+    // Lógica simple del lado del cliente para:
+    //  - agregar/quitar filas de materiales
+    //  - mostrar el precio unitario al elegir un material
+    // (El cálculo real del total se hace en el servidor al guardar)
+    // ---------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabla = document.getElementById("tablaMateriales").querySelector("tbody");
+        const btnAgregar = document.getElementById("btnAgregarFila");
+
+        function actualizarPrecio(select) {
+            const fila = select.closest("tr");
+            const opcion = select.options[select.selectedIndex];
+            const precio = opcion ? opcion.getAttribute("data-precio") : null;
+            const spanPrecio = fila.querySelector(".precio-unitario");
+            spanPrecio.textContent = precio ? `$${parseFloat(precio).toFixed(2)}` : "$0.00";
+        }
+
+        function activarFila(fila) {
+            const select = fila.querySelector(".select-material");
+            const btnQuitar = fila.querySelector(".btnQuitarFila");
+
+            select.addEventListener("change", () => actualizarPrecio(select));
+            btnQuitar.addEventListener("click", () => {
+                // Nunca dejar la tabla sin filas
+                if (tabla.querySelectorAll("tr").length > 1) {
+                    fila.remove();
+                }
+            });
+        }
+
+        // Activar la fila inicial
+        tabla.querySelectorAll("tr").forEach(activarFila);
+
+        // Agregar nuevas filas clonando la primera
+        btnAgregar.addEventListener("click", function () {
+            const filaBase = tabla.querySelector("tr");
+            const filaNueva = filaBase.cloneNode(true);
+
+            // Reiniciar valores de la fila clonada
+            filaNueva.querySelector(".select-material").selectedIndex = 0;
+            filaNueva.querySelector("input[name='cantidad[]']").value = "";
+            filaNueva.querySelector(".precio-unitario").textContent = "$0.00";
+
+            tabla.appendChild(filaNueva);
+            activarFila(filaNueva);
+        });
+    });
+</script>
+{% endblock %}
