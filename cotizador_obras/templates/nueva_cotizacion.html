@@ -5,11 +5,11 @@
 {% block content %}
 <h2 class="mb-4"><i class="bi bi-plus-circle"></i> Nueva Cotización</h2>
 
-<form method="POST" action="{{ url_for('nueva_cotizacion') }}">
+<form method="POST" action="{{ url_for('nueva_cotizacion') }}" class="section-block">
 
     <!-- Datos generales de la cotización -->
     <div class="card shadow-sm mb-4">
-        <div class="card-header bg-dark text-white">Datos del proyecto</div>
+        <div class="card-header custom-card-header">Datos del proyecto</div>
         <div class="card-body row g-3">
             <div class="col-md-4">
                 <label class="form-label">Cliente</label>
@@ -28,7 +28,7 @@
 
     <!-- Selección de materiales -->
     <div class="card shadow-sm mb-4">
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <div class="card-header custom-card-header d-flex justify-content-between align-items-center">
             <span>Materiales de la cotización</span>
             <button type="button" class="btn btn-sm btn-light" id="btnAgregarFila">
                 <i class="bi bi-plus-lg"></i> Agregar línea
@@ -36,7 +36,7 @@
         </div>
         <div class="table-responsive">
             <table class="table align-middle mb-0" id="tablaMateriales">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th style="width: 50%">Material</th>
                         <th style="width: 20%">Cantidad</th>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-dark btn-lg">
+        <button type="submit" class="btn btn-primary btn-lg">
             <i class="bi bi-check-circle"></i> Guardar cotización
         </button>
     </div>

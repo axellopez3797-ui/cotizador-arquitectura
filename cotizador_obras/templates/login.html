@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar sesión - Cotizador de Obras{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <h2>Iniciar sesión</h2>
+        <form method="POST" action="#">
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Email o usuario</label>
+                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="usuario@estudio.com" required>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+                Iniciar sesión
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

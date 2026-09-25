@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Cotizador de Obras{% endblock %}</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
     <!-- Bootstrap 5 (CDN) -->
     <link
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
@@ -18,47 +23,34 @@
     <!-- Estilos propios -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="theme-light">
 
     <!-- ============================ NAVBAR ============================ -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
-                <i class="bi bi-buildings me-1"></i> Estudio Arquitectura
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarMenu" aria-controls="navbarMenu"
-                    aria-expanded="false" aria-label="Alternar navegación">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container navbar-inner">
+            <div class="navbar-left">
+                <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                    <i class="bi bi-buildings me-1"></i> Estudio Arquitectura
+                </a>
+                <a class="nav-link {% if request.path == '/' %}active{% endif %} navbar-home-link"
+                   href="{{ url_for('index') }}">
+                    <i class="bi bi-house-door"></i> Inicio
+                </a>
+            </div>
 
-            <div class="collapse navbar-collapse" id="navbarMenu">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/' %}active{% endif %}"
-                           href="{{ url_for('index') }}">
-                            <i class="bi bi-house-door"></i> Inicio
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/materiales' %}active{% endif %}"
-                           href="{{ url_for('materiales') }}">
-                            <i class="bi bi-box-seam"></i> Materiales
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/cotizador' %}active{% endif %}"
-                           href="{{ url_for('cotizador') }}">
-                            <i class="bi bi-file-earmark-text"></i> Cotizaciones
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/nueva-cotizacion' %}active{% endif %}"
-                           href="{{ url_for('nueva_cotizacion') }}">
-                            <i class="bi bi-plus-circle"></i> Nueva Cotización
-                        </a>
-                    </li>
-                </ul>
+            <div class="navbar-right">
+                <a class="nav-link {% if request.path == '/materiales' %}active{% endif %}"
+                   href="{{ url_for('materiales') }}">
+                    <i class="bi bi-box-seam"></i> Materiales
+                </a>
+                <a class="nav-link {% if request.path == '/cotizador' %}active{% endif %}"
+                   href="{{ url_for('cotizador') }}">
+                    <i class="bi bi-file-earmark-text"></i> Cotizaciones
+                </a>
+                <a class="nav-link {% if request.path == '/nueva-cotizacion' %}active{% endif %}"
+                   href="{{ url_for('nueva_cotizacion') }}">
+                    <i class="bi bi-plus-circle"></i> Nueva Cotización
+                </a>
             </div>
         </div>
     </nav>
